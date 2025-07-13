@@ -1,0 +1,7 @@
+manim
+manimlib
+__pycache__
+.venv
+.idea
+*.pyc
+*.mp4
