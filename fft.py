@@ -1,4 +1,3 @@
-from cProfile import label
 from manimlib import *
 import numpy as np
 
@@ -260,6 +259,59 @@ class ImportComplexScene(InteractiveScene):
         self.play(FadeOut(procedure3_3),FadeOut(procedure3_4))
         self.play(result2.animate.shift(UP),result_3.animate.shift(DOWN),result_4.animate.shift(DOWN))
         self.play(FadeOut(note),FadeOut(note2),FadeOut(result2),FadeOut(result_3),FadeOut(result_4),FadeOut(result),FadeOut(trans1))
+        ##how to choose proper x
+        tree1 = VGroup(
+            Tex(r"z_0").shift(0.2*UP),
+            Arrow((0,0.2,0),(-2,1.3,0)),
+            Arrow((0,0.2,0),(2,1.3,0)),
+            Tex(r"-z_1").shift(-2*LEFT+1.3*UP),
+            Tex(r"z_1").shift(2*LEFT+1.3*UP),
+            Arrow((2,1.3,0),(3,2.5,0)),
+            Arrow((2,1.3,0),(1,2.5,0)),
+            Arrow((-2,1.3,0),(-1,2.5,0)),
+            Arrow((-2,1.3,0),(-3,2.5,0)),
+            Tex(r"z_2").shift(3*LEFT+2.5*UP),
+            Tex(r"-z_2").shift(1*LEFT+2.5*UP),
+            Tex(r"iz_2").shift(-1*LEFT+2.5*UP),
+            Tex(r"-iz_2").shift(-3*LEFT+2.5*UP),
+            Tex(r"iz_2").shift(-1*LEFT+2.5*UP),
+            Tex(r"\cdots").shift(3*LEFT+3*UP),
+            Tex(r"\cdots").shift(1*LEFT+3*UP),
+            Tex(r"\cdots").shift(1*RIGHT+3*UP),
+            Tex(r"\cdots").shift(3*RIGHT+3*UP)
+        )
+        self.play(Write(tree1))
+        self.wait()
+        Rectangle1 = Rectangle(width=6.4,height=2.7).shift(1.6*UP)
+        bracex = Brace(Rectangle1, UP)
+        labelx = TexText(r"$n$",t2c={r"$n$": BLUE}).next_to(bracex, UP,buff=0.04)
+        bracey = Brace(Rectangle1, LEFT)
+        labely = TexText(r"$\log_2n$",t2c={r"$\log_2n$": BLUE}).next_to(bracey, LEFT)
+        self.play(Write(bracex),Write(labelx))
+        self.wait()
+        self.play(Write(bracey),Write(labely))
+        self.wait()
+        formula = Tex(r"z^n=z_0").shift(0.6*DOWN+2*LEFT)
+        assumption = Tex(r"z=re^{i\theta},\quad z_0=r_0e^{i\theta_0}").shift(0.6*DOWN+2*RIGHT)
+        self.play(Write(formula))
+        self.wait()
+        self.play(Write(assumption))
+        self.wait()
+        tui = Tex(r"\left\{\begin{matrix} r^n=r_0\\ n\theta=\theta_0+2k\pi,k\in \mathbb Z\end{matrix}\right.").shift((0,-1.6,0))
+        self.play(Write(tui))
+        self.wait()
+        tui_2 = Tex(r"\left\{\begin{matrix} r^n=r_0\\ n\theta=\theta_0+2k\pi,k\in \mathbb Z\end{matrix}\right.\Rightarrow \left\{\begin{matrix} r=\sqrt[n]{r_0} \\ \theta=\frac{\theta_0}{n}+\frac{2\pi}{n}\cdot k,k\in \mathbb Z\end{matrix}\right.").shift((0,-1.6,0))
+        self.play(TransformMatchingTex(tui, tui_2))
+        self.wait()
+        conclution = Tex(r"z=z'\cdot \omega_n^k,\quad z'=\sqrt[n]{r_0}e^{i\frac{\theta_0}{n}}").shift((-2.5,-2.8,0))
+        self.play(Write(conclution))
+        self.wait()
+        bufang = Tex(r"z'=1,\quad z=\omega_n^k").shift((3,-2.8,0))
+        self.play(Write(bufang))
+        self.wait()
+        self.play(FadeOut(tree1),FadeOut(bracex),FadeOut(labelx),FadeOut(bracey),
+                  FadeOut(labely),FadeOut(formula),FadeOut(assumption),FadeOut(tui_2),
+                  FadeOut(bufang),FadeOut(conclution))
         ##proof time limit
         A = Tex(r"A(x)=a_0+a_1x+a_2x^2+\cdots+a_{n-1}x^{n-1}").shift(3*UP)
         self.play(Write(A))
@@ -273,10 +325,6 @@ class ImportComplexScene(InteractiveScene):
             r"A^{[0]}(x^2)":BLUE
         }).shift(3*UP)
         self.play(TransformMatchingTex(A, A_trans1))
-        time_limit = Tex(r"FFT(n)=2FFT(\frac{n}{2})+O(n)",font_size=34).shift(UP)
-        self.play(Write(time_limit))
-        self.wait()
-        self.play(time_limit.animate.shift(2*DOWN))
         ##tree
         arr2_1 = Arrow((-2,1.4,0),(-3,0.2,0))
         arr2_2 = Arrow((-2,1.4,0),(-1,0.2,0))
@@ -288,31 +336,56 @@ class ImportComplexScene(InteractiveScene):
         etc1 = Tex(r"\cdots").shift(1*LEFT+0.3*UP)
         etc2 = Tex(r"\cdots").shift(1*RIGHT+0.3*UP)
         etc3 = Tex(r"\cdots").shift(3*RIGHT+0.3*UP)
+        etcs = [Tex(r"\vdots").shift((1.05*(i-4)+0.5025,-0.5,0)) for i in range(8)]
         self.play(FadeIn(arr2_1),FadeIn(arr2_2),FadeIn(arr2_3),FadeIn(arr2_4),FadeIn(arr3_1),FadeIn(arr3_2),
-                  Write(etc1),Write(etc2),Write(etc3),Write(A_0_0))
-        mergeconsume = Tex(r"O(n)=c\cdot n,c\in\mathbb{R}^+",font_size=34).shift(1.6*DOWN)
-        arr_UP2 = Arrow((-3,0.2,0),(-3,1.4,0),fill_color=YELLOW)
-        label2 = Tex(r"\frac{cn}{2}",font_size=34).shift(3.3*LEFT+0.8*UP)
-        self.play(Write(mergeconsume),Write(label2),FadeIn(arr_UP2))
+                  Write(etc1),Write(etc2),Write(etc3),Write(A_0_0),*[Write(etcs[i]) for i in range(8)])
+        time_limit = Tex(r"FFT(n)=2FFT(\frac{n}{2})+c\cdot n,c\in\mathbb{R}^+",font_size=34).shift(2.1*DOWN)
+        self.play(Write(time_limit))
+        rec1 = Rectangle(width=1.6,height=0.8,color=GREEN).shift((-0.25,-2.1,0))
+        rec2 = Rectangle(width=0.7,height=0.4,color=BLUE).shift((1.2,-2.1,0))
+        self.play(ShowCreation(rec1))
         self.wait()
-        label2_trans1 = Tex(r"\frac{cn}{2}\cdot2=cn",font_size=34).shift(4*LEFT+0.8*UP)
-        self.play(TransformMatchingTex(label2, label2_trans1))
+        self.play(ShowCreation(rec2))
         self.wait()
-        rec = Rectangle(width=11.2,height=4,color=RED).shift((0,1.5,0))
+        self.play(FadeOut(rec1),FadeOut(rec2))
+        ##solve
+        condition1 = Tex(r"FFT(1)=O(1)",font_size=34).shift(2.6*DOWN)
+        self.play(Write(condition1))
+        labels = [Tex(r"O(1)",font_size=34).shift((1.05*(i-4)+0.5025,-1,0)) for i in range(8)]
+        self.play(*[Write(labels[i]) for i in range(8)])
+        self.wait()
+        bracey = Brace(VGroup(*labels),DOWN,buff=0.01)
+        labely = Tex(r"n",font_size=34).next_to(bracey,DOWN,buff=0.01)
+        self.play(Write(bracey),Write(labely))
+        conclusion = Tex(r"FFT(n)=O(n)+\dots",font_size=34).shift(3*DOWN)
+        self.play(Write(conclusion))
+        ##merge
+        arr_UP1 = Arrow((0.15,1.7,0),(0.15,2.8,0),fill_color=YELLOW)
+        label1 = Tex(r"c\cdot n",font_size=30).shift(0.2*LEFT+2.2*UP)
+        self.play(Write(label1),FadeIn(arr_UP1))
+        arr_UP2 = Arrow((-1.8,0.2,0),(-1.8,1.4,0),fill_color=YELLOW)
+        label2 = Tex(r"c\cdot \frac{n}{2}",font_size=30).shift(2.15*LEFT+0.8*UP)
+        arr_UP3 = Arrow((2.2,0.2,0),(2.2,1.4,0),fill_color=YELLOW)
+        label3 = Tex(r"c\cdot \frac{n}{2}",font_size=30).shift(1.85*RIGHT+0.8*UP)
+        self.play(Write(label2),FadeIn(arr_UP2),Write(label3),FadeIn(arr_UP3))
+        self.wait()
+        label2_trans1 = Tex(r"\frac{cn}{2}\cdot2=cn",font_size=34).shift(4.7*RIGHT+0.8*UP)
+        label2_trans3 = Tex(r"\frac{cn}{4}\cdot4=cn",font_size=34).shift(4.7*RIGHT)
+        label2_trans2 = Tex(r"cn\cdot 1=cn",font_size=34).shift(4.7*RIGHT+2.3*UP)
+        self.play(Write(label2_trans1))
+        self.wait()
+        self.play(Write(label2_trans2), Write(label2_trans3))
+        rec = Rectangle(width=11.3,height=5.2,color=RED).shift((0,0.9,0))
         self.play(ShowCreation(rec))
         brace = Brace(rec,LEFT,buff=0.01)
         label = Tex(r"\log n",font_size=34).next_to(brace,LEFT,buff=0.01)
         self.play(Write(brace),Write(label))
         self.wait()
-        ##solve
-        condition1 = Tex(r"FFT(1)=O(1)",font_size=34).shift(2.3*DOWN)
-        self.play(Write(condition1))
-        self.wait()
         ##conclusion
-        conclusion = Tex(r"FFT(n)=O(n)+c\cdot n\log n",font_size=34).shift(3*DOWN)
-        self.play(Write(conclusion))
+        conclusion1 = Tex(r"FFT(n)=O(n)+c\cdot n\log n",font_size=34).shift(3*DOWN)
+        self.play(TransformMatchingTex(conclusion, conclusion1))
         conclusion2 = Tex(r"FFT(n)=O(n)+c\cdot n\log n=O(n\log n)",font_size=34).shift(3*DOWN)
-        self.play(TransformMatchingTex(conclusion, conclusion2))
+        self.play(TransformMatchingTex(conclusion1, conclusion2))
         self.wait()
 class ComplexScene(InteractiveScene):
     def construct(self):
@@ -325,7 +398,7 @@ class ComplexScene(InteractiveScene):
         point = plane.n2p(z)
         dot = Dot(point)
         arrow = Arrow(start=ORIGIN, end=point, color=YELLOW,buff=0)
-        complex_num = Tex(r"z =\frac{3}{2} + 2i,\quad  i=\sqrt{-1}").shift(2.5*UP+2*RIGHT)
+        complex_num = Tex(r"z =\frac{3}{2} + 2i,\quad  i=\sqrt{-1}").shift(2.5*UP+2.5*RIGHT)
         self.play(Write(complex_num))
         self.play(FadeIn(dot))
         self.play(GrowArrow(arrow))
@@ -480,12 +553,8 @@ class FFTScene(InteractiveScene):
         self.play(FadeOut(reason2))
         self.wait()
         ##conclusion
-        condition1 = Tex(r"n=2^k,k\in\mathbb{N}")
-        condition2 = Tex(r"k\in\{0,1,\dots,\frac{n}{2}-1\}").shift(0.8*DOWN)
         polyA0.shift(0.8*DOWN)
         polyA1.shift(0.8*DOWN)
-        self.play(Write(condition1))
-        self.play(Write(condition2))
         self.play(Write(polyA0),Write(polyA1))
         self.wait()
         A0 = Tex(r"A^{[0]}(\omega_{\frac{n}{2}}^k)").shift(1.8*DOWN+3*LEFT)
@@ -522,21 +591,25 @@ class IDFTScene(InteractiveScene):
         self.wait()
         self.play(TransformMatchingTex(lines_j_equal_k[0], lines_j_equal_k[1]))
         self.wait()
+        ##test
         lines_j_not_equal_k = VGroup(
             Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}",font_size=32).shift(2*DOWN),
             Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}=\frac{1}{n}\frac{\omega_n^{n(j-k)}-1}{\omega_n^{j-k}-1}",font_size=32).shift(2*DOWN),
-            Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}=\frac{1}{n}\frac{e^{i\frac{2\pi}{n}\cdot n(j-k)}-1}{\omega_n^{j-k}-1}",font_size=32).shift(2*DOWN),
-            Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}=\frac{1}{n}\frac{1-1}{\omega_n^{j-k}-1}=0",font_size=32).shift(3*DOWN)
+            Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}=\frac{1}{n}\frac{e^{i\frac{2\pi}{n}\cdot n(j-k)}-1}{\omega_n^{j-k}-1}",font_size=32).shift(3*DOWN),
+            Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}=\frac{1}{n}\frac{e^{i\frac{2\pi}{n}\cdot n(j-k)}-1}{\omega_n^{j-k}-1}=\frac{1}{n}\frac{1-1}{\omega_n^{j-k}-1}=0",font_size=32).shift(3*DOWN)
         )
         self.play(Write(lines_j_not_equal_k[0]))
         self.wait()
+        notice = Tex(r"(j-k)\in[-(n-1),n-1] \setminus \{0\}\Rightarrow n\nmid(j-k)\Rightarrow \omega_n^{j-k}\neq1",font_size=32).shift(3*DOWN)
+        self.play(Write(notice))
         self.play(TransformMatchingTex(lines_j_not_equal_k[0], lines_j_not_equal_k[1]))
         self.wait()
-        self.play(TransformMatchingTex(lines_j_not_equal_k[1], lines_j_not_equal_k[2]))
+        self.play(FadeOut(notice))
+        self.play(TransformMatchingTex(lines_j_not_equal_k[1].copy(), lines_j_not_equal_k[2]))
         self.wait()
-        self.play(TransformMatchingTex(lines_j_not_equal_k[2].copy(), lines_j_not_equal_k[3]))
+        self.play(TransformMatchingTex(lines_j_not_equal_k[2], lines_j_not_equal_k[3]))
         self.wait()
-        self.play(FadeOut(NiJuZhen),FadeOut(condition),FadeOut(lines[1]),FadeOut(lines_j_equal_k[1]),FadeOut(lines_j_not_equal_k[2]),FadeOut(lines_j_not_equal_k[3]))
+        self.play(FadeOut(NiJuZhen),FadeOut(condition),FadeOut(lines[1]),FadeOut(lines_j_equal_k[1]),FadeOut(lines_j_not_equal_k[1]),FadeOut(lines_j_not_equal_k[3]))
         ##draw idft
         formula1 = Tex(r"\begin{bmatrix}  1&  1&  1&  1& \dots& 1\\  1&  \omega_n&  \omega_n^2&  \omega_n^3&  \dots& \omega_n^{n-1}\\  1&  \omega_n^2&  \omega_n^4&  \omega_n^6&  \dots& \omega_n^{2(n-1)}\\  1&  \omega_n^3&  \omega_n^6&  \omega_n^9&  \dots& \omega_n^{3(n-1)}\\  \vdots&  \vdots&  \vdots&  \vdots&  \ddots & \vdots \\  1&  \omega_n^{(n-1)}&  \omega_n^{2(n-1)}&  \omega_n^{3(n-1)}&  \dots& \omega_n^{(n-1)(n-1)}\end{bmatrix}\begin{bmatrix} a_0\\ a_1\\ a_2\\ a_3\\ \vdots\\a_{n-1}\end{bmatrix}=\begin{bmatrix} y_0\\ y_1\\ y_2\\ y_3\\ \vdots\\y_{n-1}\end{bmatrix}",font_size=34).shift(2*UP)
         self.play(Write(formula1))
@@ -550,4 +623,22 @@ class IDFTScene(InteractiveScene):
         self.play(Write(calculate_A2))
 class SumUpScene(InteractiveScene):
     def construct(self) :
-        pass #TODO: Add a summary scene
+        ##sum up
+        lines = VGroup(
+            Tex(r"(1+2x)(3+4x)=3+10x+8x^2",font_size=30).shift(4.2*LEFT),
+            Tex(r"(1+20)(3+40)=3+10\times10+8\times10^2",font_size=30).shift(RIGHT),
+            Tex(r"21\times 43=903",font_size=30).shift(4.9*RIGHT)
+        )
+        self.play(Write(lines[0]))
+        self.wait()
+        self.play(TransformMatchingTex(lines[0].copy(), lines[1]))
+        self.wait()
+        self.play(TransformMatchingTex(lines[1].copy(), lines[2]))
+        self.wait()
+        special_use1 = Tex(r"\frac{1}{\sqrt n}\begin{bmatrix}  1&  1&  1&  1& \dots& 1\\  1&  \omega_n&  \omega_n^2&  \omega_n^3&  \dots& \omega_n^{n-1}\\  1&  \omega_n^2&  \omega_n^4&  \omega_n^6&  \dots& \omega_n^{2(n-1)}\\  1&  \omega_n^3&  \omega_n^6&  \omega_n^9&  \dots& \omega_n^{3(n-1)}\\  \vdots&  \vdots&  \vdots&  \vdots&  \ddots & \vdots \\  1&  \omega_n^{(n-1)}&  \omega_n^{2(n-1)}&  \omega_n^{3(n-1)}&  \dots& \omega_n^{(n-1)(n-1)}\end{bmatrix}",font_size=24).shift(1.7*DOWN+3.5*LEFT)
+        special_use2 = Tex(r"\frac{1}{\sqrt n}\begin{bmatrix}1 & 1 & 1 & 1 & \cdots & 1 \\1 & \omega_n^{-1} & \omega_n^{-2} & \omega_n^{-3} & \cdots & \omega_n^{-(n-1)} \\1 & \omega_n^{-2} & \omega_n^{-4} & \omega_n^{-6} & \cdots & \omega_n^{-2(n-1)} \\1 & \omega_n^{-3} & \omega_n^{-6} & \omega_n^{-9} & \cdots & \omega_n^{-3(n-1)} \\\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\1 & \omega_n^{-(n-1)} & \omega_n^{-2(n-1)} & \omega_n^{-3(n-1)} & \cdots & \omega_n^{-(n-1)(n-1)}\end{bmatrix}",font_size=24).shift(1.7*DOWN+3.5*RIGHT)
+        self.play(Write(special_use1),Write(special_use2))
+        self.wait()
+        juanjidingli = Tex(r"a\otimes b=DFT^{-1}_{2n}(DFT_{2n}(a)\cdot DFT_{2n}(b))",font_size=32).shift(3.5*DOWN)
+        self.play(Write(juanjidingli))
+        self.wait()
