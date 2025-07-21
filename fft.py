@@ -4,6 +4,7 @@ import numpy as np
 class DotScene(InteractiveScene):
     def construct(self):
         ##write polies
+        self.wait()
         polies = VGroup( Tex(r"x^3+x^2+x-1").shift(UP),
                        Tex(r"-x^3-2x^2+2x+2")
                        )
@@ -21,7 +22,10 @@ class DotScene(InteractiveScene):
         self.play(Write(procedure))
         self.play(Write(result))
         tongshi = Tex(r"(\sum_{i = 0}^{n-1}{a_ix^i})\cdot (\sum_{i = 0}^{n-1}{b_ix^i}) = \sum_{k = 0}^{2n-2}{c_kx^k},\quad c_k=\sum_{\substack{i+j=k \\ i,j \geq 0}}a_ib_j").shift(2.5*DOWN)
+        tongshi_2 = Tex(r"(\sum_{i = 0}^{n-1}{a_ix^i})\cdot (\sum_{i = 0}^{n-1}{b_ix^i}) = \sum_{k = 0}^{2n-2}{c_kx^k},\quad c_k=\sum_{\substack{i+j=k \\ i,j \geq 0}}a_ib_j=\sum_{i=0}^{k}a_ib_{k-i}").shift(2.5*DOWN)
         self.play(Write(tongshi))
+        self.wait()
+        self.play(TransformMatchingTex(tongshi, tongshi_2))
         self.wait()
         rec = Rectangle(height = 2.5,width=8.1,color = RED).shift(1.25*UP+1.73*LEFT)
         bracex = Brace(rec, RIGHT)
@@ -51,7 +55,7 @@ class DotScene(InteractiveScene):
         procedure_2 = Tex(r"\left\{\begin{matrix}k=2\\b=1\end{matrix}\right.").shift(-0.2*UP+4*LEFT)
         self.play(Write(procedure_1))
         self.wait()
-        self.play(TransformMatchingTex(procedure_1.copy(), procedure_2))
+        self.play(Write(procedure_2))
         self.play(ShowCreation(graph))
         example_2 = Tex(r"ax^2+bx+c").shift(3*UP+4*RIGHT)
         graph_2 = axes.get_graph(lambda x: x**2+2*x, color=RED)
@@ -63,7 +67,7 @@ class DotScene(InteractiveScene):
         self.play(ShowCreation(dot_3),Write(label_3))
         self.play(Write(procedure_3),ShowCreation(graph_2))
         self.wait()
-        self.play(TransformMatchingTex(procedure_3.copy(), procedure_4))
+        self.play(Write(procedure_4))
         self.wait()
         self.play(FadeOut(example_1),FadeOut(example_2),FadeOut(axes),FadeOut(graph),FadeOut(graph_2),
                     FadeOut(dot_1),FadeOut(dot_2),FadeOut(dot_3),
@@ -84,19 +88,16 @@ class DotScene(InteractiveScene):
         self.wait()
         self.play(FadeOut(hanglieshi))
         ##ni
-        dotexpression_deverse = Tex(r"\begin{bmatrix} a_0\\a_1\\ \vdots \\a_{n-1} \end{bmatrix}=",r"\begin{bmatrix} 1 & x_0 & x_0^2 & \cdots & x_0^{n-1} \\ 1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n-1} & x_{n-1}^2 & \cdots & x_{n-1}^{n-1} \end{bmatrix}^{-1}",r"\begin{bmatrix} y_0\\y_1\\ \vdots \\ y_{n-1} \end{bmatrix}")
-        self.play(TransformMatchingTex(dotexpression,dotexpression_deverse,
-                                       key_map={
-                                           r"\begin{bmatrix} a_0\\a_1\\ \vdots \\a_{n-1} \end{bmatrix}=":r"\begin{bmatrix} a_0\\a_1\\ \vdots \\a_{n-1} \end{bmatrix}=",
-                                           r"\begin{bmatrix} y_0\\y_1\\ \vdots \\ y_{n-1} \end{bmatrix}":r"\begin{bmatrix} y_0\\y_1\\ \vdots \\ y_{n-1} \end{bmatrix}",
-                                           r"\begin{bmatrix} 1 & x_0 & x_0^2 & \cdots & x_0^{n-1} \\ 1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n-1} & x_{n-1}^2 & \cdots & x_{n-1}^{n-1} \end{bmatrix}":r"\begin{bmatrix} 1 & x_0 & x_0^2 & \cdots & x_0^{n-1} \\ 1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n-1} & x_{n-1}^2 & \cdots & x_{n-1}^{n-1} \end{bmatrix}"
-                                       }))
+        dotexpression_deverse = Tex(r"\begin{bmatrix} a_0\\a_1\\ \vdots \\a_{n-1} \end{bmatrix}=",r"\begin{bmatrix} 1 & x_0 & x_0^2 & \cdots & x_0^{n-1} \\ 1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n-1} & x_{n-1}^2 & \cdots & x_{n-1}^{n-1} \end{bmatrix}^{-1}",r"\begin{bmatrix} y_0\\y_1\\ \vdots \\ y_{n-1} \end{bmatrix}").shift(2*DOWN)
+        self.play(dotexpression.animate.shift(UP))
+        self.play(Write(dotexpression_deverse))
         self.wait()
-        self.play(FadeOut(xishushi),FadeOut(dots),FadeOut(dotexpression_deverse))
+        #self.play(FadeOut(xishushi),FadeOut(dots),FadeOut(dotexpression_deverse))
 
 class ProcedureScene(InteractiveScene):
     def construct(self):
         ##draw procedure
+        self.wait()
         poly1 = Tex(r"\sum_{i = 0}^{n-1}{a_ix^i}").shift(3*UP+2*LEFT)
         poly2 = Tex(r"\sum_{i = 0}^{n-1}{b_ix^i}").shift(3*UP+2*RIGHT)
         arr11 = Arrow((2.3,2.9),(2.3,1.5))
@@ -125,13 +126,14 @@ class ProcedureScene(InteractiveScene):
         o_nlogn_2 = Tex(r"O(n \log n)").shift(1.5*RIGHT+1*DOWN)
         self.play(FadeIn(o_nlogn_1),FadeIn(o_nlogn_2))
         self.wait()
-        self.play(FadeOut(poly1),FadeOut(poly2),FadeOut(arr11),FadeOut(arr12),FadeOut(arr21),
-                  FadeOut(arr22),FadeOut(o_nlogn_1),FadeOut(o_nlogn_2),FadeOut(arr),FadeOut(pots1),
-                  FadeOut(pots2),FadeOut(pots),FadeOut(result),FadeOut(o_n))
+        # self.play(FadeOut(poly1),FadeOut(poly2),FadeOut(arr11),FadeOut(arr12),FadeOut(arr21),
+        #           FadeOut(arr22),FadeOut(o_nlogn_1),FadeOut(o_nlogn_2),FadeOut(arr),FadeOut(pots1),
+        #           FadeOut(pots2),FadeOut(pots),FadeOut(result),FadeOut(o_n))
 
 class ImportComplexScene(InteractiveScene):
     def construct(self):
         ##draw duoxiangshi
+        self.wait()
         poly = Tex(r"-1+x+x^2+x^3")
         self.play(Write(poly))
         self.wait()
@@ -203,31 +205,36 @@ class ImportComplexScene(InteractiveScene):
         self.wait()
         self.play(FadeOut(polyA),FadeOut(polyA0),FadeOut(polyA1),FadeOut(polyrelation1),FadeOut(polyrelation2),FadeOut(arr1),FadeOut(arr2),FadeOut(notice))
         ##example
-        example = Tex(r"A(x)=1+3x+2x^2+x^3").shift(3*UP)
+        example = Tex(r"A(x)=1+3x+2x^2+x^3").shift(3*UP+2*LEFT)
+        example_2 =Tex(r"A(2)=?").shift(3*UP+2*RIGHT)
         self.play(Write(example))
         self.wait()
-        procedure1 = Tex(r"A^{[0]}(x)=1+2x").shift(2*UP)
-        procedure2 = Tex(r"A^{[1]}(x)=3+x").shift(1*UP)
+        self.play(Write(example_2))
+        self.wait()
+        procedure1 = Tex(r"A^{[0]}(x)=1+2x").shift(2*UP+2*LEFT)
+        procedure2 = Tex(r"A^{[1]}(x)=3+x").shift(1*UP+2*LEFT)
+        procedure1_2 = Tex(r"A^{[0]}(4)=?").shift(2*UP+2*RIGHT)
+        procedure2_2 = Tex(r"A^{[1]}(4)=?").shift(1*UP+2*RIGHT)
         self.play(Write(procedure1),Write(procedure2))
         self.wait()
+        self.play(FadeOut(example_2))
         trans1 = Tex(r"A(x)=1+3x+2x^2+x^3=A^{[0]}(x^2)+xA^{[1]}(x^2)").shift(3*UP)
         self.play(TransformMatchingTex(example, trans1))
-        procedure1_2 = Tex(r"A^{[0]}(x)=1+2x |_{x=4}").shift(2*UP)
-        procedure2_2 = Tex(r"A^{[1]}(x)=3+x |_{x=4}").shift(1*UP)
-        self.play(TransformMatchingTex(procedure1, procedure1_2),
-                  TransformMatchingTex(procedure2, procedure2_2))
+        self.wait()
+        self.play(Write(procedure1_2),Write(procedure2_2))
         self.wait()
         procedure3_1_1 = Tex(r"A^{{[0]}^{[0]}}(x) = 1")
         procedure3_1_2 = Tex(r"A^{{[0]}^{[1]}}(x) = 2").shift(1*DOWN)
-        trans1_2 = Tex(r"A^{[0]}(x)=1+2x=A^{{[0]}^{[0]}}(x^2)+xA^{{[0]}^{[1]}}(x^2)").shift(2*UP)
+        trans1_2 = Tex(r"A^{[0]}(x)=1+2x=A^{{[0]}^{[0]}}(x^2)+xA^{{[0]}^{[1]}}(x^2)").shift(2*UP+2*LEFT)
         self.play(Write(procedure3_1_1),Write(procedure3_1_2))
-        self.play(TransformMatchingTex(procedure1_2, trans1_2))
+        self.play(FadeOut(procedure1_2),FadeOut(procedure2_2))
+        self.play(TransformMatchingTex(procedure1, trans1_2))
         procedure3_1 = Tex(r"A^{[0]}(4)=A^{{[0]}^{[0]}}(16)+4A^{{[0]}^{[1]}}(16)=1+4\cdot2=9").shift(2*UP)
         self.play(TransformMatchingTex(trans1_2, procedure3_1))
         self.play(FadeOut(procedure3_1_1),FadeOut(procedure3_1_2))
         self.wait()
         procedure3_2 = Tex(r"A^{[1]}(4)=A^{{[1]}^{[0]}}(16)+4A^{{[1]}^{[1]}}(16)=3+4\cdot1=7").shift(1*UP)
-        self.play(TransformMatchingTex(procedure2_2, procedure3_2))
+        self.play(TransformMatchingTex(procedure2, procedure3_2))
         result = Tex(r"A(2)=A^{[0]}(4)+2A^{[1]}(4)=9+2\cdot7=23")
         self.play(Write(result))
         example_regular = Tex(r"A(2) = 1+3\cdot2+2\cdot2^2+2^3 = 23").shift(1*DOWN)
@@ -249,7 +256,9 @@ class ImportComplexScene(InteractiveScene):
         note = Tex(r"x^2=-4").shift(3*DOWN+1.3*LEFT)
         note2 = Tex(r"x=\pm 2i").shift(3*DOWN+1.3*RIGHT)
         self.play(Write(procedure3_3),Write(procedure3_4))
-        self.play(Write(note),Write(note2))
+        self.play(Write(note))
+        self.wait()
+        self.play(Write(note2))
         self.wait()
         self.play(FadeOut(procedure3_1),FadeOut(procedure3_2),result.animate.shift(2*UP))
         result_3 = Tex(r"A(2i)=A^{[0]}(-4)+2iA^{[1]}(-4)=-7+2i\cdot(-1)=-7-2i").shift(UP)
@@ -258,6 +267,7 @@ class ImportComplexScene(InteractiveScene):
         self.wait()
         self.play(FadeOut(procedure3_3),FadeOut(procedure3_4))
         self.play(result2.animate.shift(UP),result_3.animate.shift(DOWN),result_4.animate.shift(DOWN))
+        self.wait()
         self.play(FadeOut(note),FadeOut(note2),FadeOut(result2),FadeOut(result_3),FadeOut(result_4),FadeOut(result),FadeOut(trans1))
         ##how to choose proper x
         tree1 = VGroup(
@@ -297,11 +307,11 @@ class ImportComplexScene(InteractiveScene):
         self.wait()
         self.play(Write(assumption))
         self.wait()
-        tui = Tex(r"\left\{\begin{matrix} r^n=r_0\\ n\theta=\theta_0+2k\pi,k\in \mathbb Z\end{matrix}\right.").shift((0,-1.6,0))
+        tui = Tex(r"\left\{\begin{matrix} r^n=r_0\\ n\theta=\theta_0+2k\pi,k\in \mathbb Z\end{matrix}\right.").shift((-3,-1.6,0))
         self.play(Write(tui))
         self.wait()
-        tui_2 = Tex(r"\left\{\begin{matrix} r^n=r_0\\ n\theta=\theta_0+2k\pi,k\in \mathbb Z\end{matrix}\right.\Rightarrow \left\{\begin{matrix} r=\sqrt[n]{r_0} \\ \theta=\frac{\theta_0}{n}+\frac{2\pi}{n}\cdot k,k\in \mathbb Z\end{matrix}\right.").shift((0,-1.6,0))
-        self.play(TransformMatchingTex(tui, tui_2))
+        tui_2 = Tex(r"\left\{\begin{matrix} r=\sqrt[n]{r_0} \\ \theta=\frac{\theta_0}{n}+\frac{2\pi}{n}\cdot k,k\in \mathbb Z\end{matrix}\right.").shift((3,-1.6,0))
+        self.play(Write(tui_2))
         self.wait()
         conclution = Tex(r"z=z'\cdot \omega_n^k,\quad z'=\sqrt[n]{r_0}e^{i\frac{\theta_0}{n}}").shift((-2.5,-2.8,0))
         self.play(Write(conclution))
@@ -311,7 +321,7 @@ class ImportComplexScene(InteractiveScene):
         self.wait()
         self.play(FadeOut(tree1),FadeOut(bracex),FadeOut(labelx),FadeOut(bracey),
                   FadeOut(labely),FadeOut(formula),FadeOut(assumption),FadeOut(tui_2),
-                  FadeOut(bufang),FadeOut(conclution))
+                  FadeOut(bufang),FadeOut(conclution),FadeOut(tui))
         ##proof time limit
         A = Tex(r"A(x)=a_0+a_1x+a_2x^2+\cdots+a_{n-1}x^{n-1}").shift(3*UP)
         self.play(Write(A))
@@ -390,6 +400,7 @@ class ImportComplexScene(InteractiveScene):
 class ComplexScene(InteractiveScene):
     def construct(self):
         ##intro
+        self.wait()
         plane = ComplexPlane()
         plane.add_coordinate_labels()
         self.play(Write(plane))
@@ -436,14 +447,21 @@ class ComplexScene(InteractiveScene):
         self.play(Write(circle),Write(formula),self.camera.frame.animate.set_width(8))
         self.play(FadeIn(arrow),FadeIn(proj_x),FadeIn(proj_x2),FadeIn(proj_y),FadeIn(proj_y2),FadeIn(labelx),FadeIn(labely))
         self.play(theta.animate.set_value(2*PI), run_time=4, rate_func=linear)
-        self.play(FadeOut(arrow),FadeOut(proj_x),FadeOut(proj_x2),FadeOut(proj_y),FadeOut(proj_y2),
-                  FadeOut(theta),FadeOut(labelx),FadeOut(labely),FadeOut(arrow))
-        self.play(self.camera.frame.animate.set_width(14.222222),FadeOut(formula),FadeOut(plane.coordinate_labels))
+        self.wait()
+        # self.play(FadeOut(arrow),FadeOut(proj_x),FadeOut(proj_x2),FadeOut(proj_y),FadeOut(proj_y2),
+        #           FadeOut(theta),FadeOut(labelx),FadeOut(labely),FadeOut(arrow))
+        # self.play(self.camera.frame.animate.set_width(14.222222),FadeOut(formula),FadeOut(plane.coordinate_labels))
+class DanWeiGenScene(InteractiveScene):
+    def construct(self):
         ##danweigen definition
-        definition1 = Tex(r"z^n=1").shift(2*UP+3*RIGHT)
-        assumption = Tex(r"z=re^{i\theta},r > 0").shift(1*UP+3*RIGHT)
-        p1 = Tex(r"z^n=r^ne^{in\theta}=1").shift(3.5*RIGHT)
-        conclution = Tex(r"\left\{\begin{matrix}r=1\\\theta = \frac{2k\pi}{n},\quad k\in\{0,1,\dots,n-1\}\end{matrix}\right.").shift(2.5*DOWN+2.5*RIGHT)
+        self.wait()
+        plane = ComplexPlane()
+        self.play(Write(plane))
+        definition1 = Tex(r"z^n=1").shift(2*UP+3.4*RIGHT)
+        assumption = Tex(r"z=re^{i\theta},r > 0").shift(1*UP+3.4*RIGHT)
+        p1 = Tex(r"z^n=r^ne^{in\theta}=1").shift(3.9*RIGHT)
+        procedure = Tex(r"\left\{\begin{matrix}r^n=1\\n\theta = 2k\pi\end{matrix}\right.").shift(3.4*RIGHT+DOWN)
+        conclution = Tex(r"\left\{\begin{matrix}r=1\\\theta = \frac{2k\pi}{n},\quad k\in\{0,1,\dots,n-1\}\end{matrix}\right.").shift(2.5*DOWN+2.9*RIGHT)
         n=8
         niseight = Tex("n=8=2^3").shift(2*UP+2.2*LEFT)
         roots = [np.exp(1j * 2 * PI * k / n) for k in range(n)]
@@ -452,12 +470,16 @@ class ComplexScene(InteractiveScene):
         self.play(Write(definition1))
         self.play(Write(assumption))
         self.play(Write(p1))
+        self.play(Write(procedure))
+        self.wait()
         self.play(Write(conclution))
         self.wait()
         self.play(Write(niseight))
+        circle = Circle(radius=1, stroke_color=GREEN)
+        self.play(Write(circle))
         self.play(*[FadeIn(dot) for dot in dots],*[Write(label) for label in labels])
         self.wait()
-        self.play(FadeOut(definition1),FadeOut(assumption),FadeOut(p1),FadeOut(conclution))
+        self.play(FadeOut(definition1),FadeOut(assumption),FadeOut(p1),FadeOut(conclution),FadeOut(procedure))
         self.wait()
         property1 = Tex(r"\omega_n^k=e^{i(\frac{2\pi}{n}k)}").shift(1*UP+3*LEFT)
         property2 = Tex(r"\omega_n^{\frac{n}{2}+k}=-\omega_n^k(k=0,1,\dots,\frac{n}{2}-1)").shift(3*DOWN)
@@ -465,7 +487,7 @@ class ComplexScene(InteractiveScene):
         self.play(Write(property2))
         self.wait()
         self.play(FadeOut(property1),FadeOut(property2))
-        ##danweigen
+        ##danweigen property
         squared_roots = [root**2 for root in roots]
         squared_roots = squared_roots[0:4]
         squared_dots = [Dot(plane.n2p(root), fill_color=BLUE, radius=0.08) for root in squared_roots]
@@ -481,9 +503,11 @@ class ComplexScene(InteractiveScene):
         self.wait()
         conclusion1 = Tex(r"(\omega_n^k)^2=\omega_{\frac{n}{2}}^k(k=0,1,\dots,\frac{n}{2}-1)").shift(3*DOWN)
         self.play(Write(conclusion1))
+        self.wait()
 class FFTScene(InteractiveScene):
     def construct(self):
         ##draw fft
+        self.wait()
         polyA0=Tex(r"A^{[0]}(x)=a_0+a_2x+a_4x^2+\cdots +a_{n-2}x^{\frac{n}{2}-1}").shift(2.2*UP)
         polyA1=Tex(r"A^{[1]}(x)=a_1+a_3x+a_5x^2+\cdots +a_{n-1}x^{\frac{n}{2}-1}").shift(1.4*UP)
         polyrelation1 = Tex(r"A(x)=A^{[0]}(x^2)+xA^{[1]}(x^2)",t2c={
@@ -561,12 +585,15 @@ class FFTScene(InteractiveScene):
         A1 = Tex(r"A^{[1]}(\omega_{\frac{n}{2}}^k)").shift(1.8*DOWN+1*LEFT)
         label = Text("这两个多项式的项数都折半\n同时单位根的次数也对应折半\n递归求解",font_size=18,font="Microsoft YaHei").shift(1.8*DOWN+4*RIGHT)
         arr  = Arrow(A1.get_right(),label.get_left())
+        DFT = Text(r"DFT").shift(0.5*DOWN+3*RIGHT)
         self.play(Write(A0),Write(A1))
         self.play(FadeIn(arr),Write(label))
+        self.play(Write(DFT))
         self.wait()
 class IDFTScene(InteractiveScene):
     def construct(self):
         ##fourier
+        self.wait()
         NiJuZhen = Tex(r"\begin{bmatrix}  1&  1&  1&  1& \dots& 1\\  1&  \omega_n&  \omega_n^2&  \omega_n^3&  \dots& \omega_n^{n-1}\\  1&  \omega_n^2&  \omega_n^4&  \omega_n^6&  \dots& \omega_n^{2(n-1)}\\  1&  \omega_n^3&  \omega_n^6&  \omega_n^9&  \dots& \omega_n^{3(n-1)}\\  \vdots&  \vdots&  \vdots&  \vdots&  \ddots & \vdots \\  1&  \omega_n^{(n-1)}&  \omega_n^{2(n-1)}&  \omega_n^{3(n-1)}&  \dots& \omega_n^{(n-1)(n-1)}\end{bmatrix}^{-1}=\frac{1}{n}\begin{bmatrix}1 & 1 & 1 & 1 & \cdots & 1 \\1 & \omega_n^{-1} & \omega_n^{-2} & \omega_n^{-3} & \cdots & \omega_n^{-(n-1)} \\1 & \omega_n^{-2} & \omega_n^{-4} & \omega_n^{-6} & \cdots & \omega_n^{-2(n-1)} \\1 & \omega_n^{-3} & \omega_n^{-6} & \omega_n^{-9} & \cdots & \omega_n^{-3(n-1)} \\\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\1 & \omega_n^{-(n-1)} & \omega_n^{-2(n-1)} & \omega_n^{-3(n-1)} & \cdots & \omega_n^{-(n-1)(n-1)}\end{bmatrix}",font_size=28)
         self.play(Write(NiJuZhen))
         self.wait()
@@ -595,8 +622,8 @@ class IDFTScene(InteractiveScene):
         lines_j_not_equal_k = VGroup(
             Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}",font_size=32).shift(2*DOWN),
             Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}=\frac{1}{n}\frac{\omega_n^{n(j-k)}-1}{\omega_n^{j-k}-1}",font_size=32).shift(2*DOWN),
-            Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}=\frac{1}{n}\frac{e^{i\frac{2\pi}{n}\cdot n(j-k)}-1}{\omega_n^{j-k}-1}",font_size=32).shift(3*DOWN),
-            Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}=\frac{1}{n}\frac{e^{i\frac{2\pi}{n}\cdot n(j-k)}-1}{\omega_n^{j-k}-1}=\frac{1}{n}\frac{1-1}{\omega_n^{j-k}-1}=0",font_size=32).shift(3*DOWN)
+            Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}=\frac{1}{n}\frac{\omega_n^{n(j-k)}-1}{\omega_n^{j-k}-1}=\frac{1}{n}\frac{e^{i\frac{2\pi}{n}\cdot n(j-k)}-1}{\omega_n^{j-k}-1}",font_size=32).shift(2*DOWN),
+            Tex(r"j\neq k \Rightarrow (F_nF_n^{-1})_{j,k}=\frac{1}{n}\sum_{i=0}^{n-1}\omega_n^{i(j-k)}=\frac{1}{n}\frac{\omega_n^{n(j-k)}-1}{\omega_n^{j-k}-1}=\frac{1}{n}\frac{e^{i\frac{2\pi}{n}\cdot n(j-k)}-1}{\omega_n^{j-k}-1}=\frac{1}{n}\frac{1-1}{\omega_n^{j-k}-1}=0",font_size=32).shift(2*DOWN)
         )
         self.play(Write(lines_j_not_equal_k[0]))
         self.wait()
@@ -605,11 +632,11 @@ class IDFTScene(InteractiveScene):
         self.play(TransformMatchingTex(lines_j_not_equal_k[0], lines_j_not_equal_k[1]))
         self.wait()
         self.play(FadeOut(notice))
-        self.play(TransformMatchingTex(lines_j_not_equal_k[1].copy(), lines_j_not_equal_k[2]))
+        self.play(TransformMatchingTex(lines_j_not_equal_k[1], lines_j_not_equal_k[2]))
         self.wait()
         self.play(TransformMatchingTex(lines_j_not_equal_k[2], lines_j_not_equal_k[3]))
         self.wait()
-        self.play(FadeOut(NiJuZhen),FadeOut(condition),FadeOut(lines[1]),FadeOut(lines_j_equal_k[1]),FadeOut(lines_j_not_equal_k[1]),FadeOut(lines_j_not_equal_k[3]))
+        self.play(FadeOut(NiJuZhen),FadeOut(condition),FadeOut(lines[1]),FadeOut(lines_j_equal_k[1]),FadeOut(lines_j_not_equal_k[3]))
         ##draw idft
         formula1 = Tex(r"\begin{bmatrix}  1&  1&  1&  1& \dots& 1\\  1&  \omega_n&  \omega_n^2&  \omega_n^3&  \dots& \omega_n^{n-1}\\  1&  \omega_n^2&  \omega_n^4&  \omega_n^6&  \dots& \omega_n^{2(n-1)}\\  1&  \omega_n^3&  \omega_n^6&  \omega_n^9&  \dots& \omega_n^{3(n-1)}\\  \vdots&  \vdots&  \vdots&  \vdots&  \ddots & \vdots \\  1&  \omega_n^{(n-1)}&  \omega_n^{2(n-1)}&  \omega_n^{3(n-1)}&  \dots& \omega_n^{(n-1)(n-1)}\end{bmatrix}\begin{bmatrix} a_0\\ a_1\\ a_2\\ a_3\\ \vdots\\a_{n-1}\end{bmatrix}=\begin{bmatrix} y_0\\ y_1\\ y_2\\ y_3\\ \vdots\\y_{n-1}\end{bmatrix}",font_size=34).shift(2*UP)
         self.play(Write(formula1))
@@ -620,7 +647,10 @@ class IDFTScene(InteractiveScene):
                                r"-":BLUE,
                                r"n-1":WHITE
                            }).shift(2*DOWN)
+        IDFT = Text(r"IDFT",font_size=32,font="Microsoft YaHei")
         self.play(Write(calculate_A2))
+        self.play(Write(IDFT))
+        self.wait()
 class SumUpScene(InteractiveScene):
     def construct(self) :
         ##sum up
@@ -635,8 +665,8 @@ class SumUpScene(InteractiveScene):
         self.wait()
         self.play(TransformMatchingTex(lines[1].copy(), lines[2]))
         self.wait()
-        special_use1 = Tex(r"\frac{1}{\sqrt n}\begin{bmatrix}  1&  1&  1&  1& \dots& 1\\  1&  \omega_n&  \omega_n^2&  \omega_n^3&  \dots& \omega_n^{n-1}\\  1&  \omega_n^2&  \omega_n^4&  \omega_n^6&  \dots& \omega_n^{2(n-1)}\\  1&  \omega_n^3&  \omega_n^6&  \omega_n^9&  \dots& \omega_n^{3(n-1)}\\  \vdots&  \vdots&  \vdots&  \vdots&  \ddots & \vdots \\  1&  \omega_n^{(n-1)}&  \omega_n^{2(n-1)}&  \omega_n^{3(n-1)}&  \dots& \omega_n^{(n-1)(n-1)}\end{bmatrix}",font_size=24).shift(1.7*DOWN+3.5*LEFT)
-        special_use2 = Tex(r"\frac{1}{\sqrt n}\begin{bmatrix}1 & 1 & 1 & 1 & \cdots & 1 \\1 & \omega_n^{-1} & \omega_n^{-2} & \omega_n^{-3} & \cdots & \omega_n^{-(n-1)} \\1 & \omega_n^{-2} & \omega_n^{-4} & \omega_n^{-6} & \cdots & \omega_n^{-2(n-1)} \\1 & \omega_n^{-3} & \omega_n^{-6} & \omega_n^{-9} & \cdots & \omega_n^{-3(n-1)} \\\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\1 & \omega_n^{-(n-1)} & \omega_n^{-2(n-1)} & \omega_n^{-3(n-1)} & \cdots & \omega_n^{-(n-1)(n-1)}\end{bmatrix}",font_size=24).shift(1.7*DOWN+3.5*RIGHT)
+        special_use1 = Tex(r"\frac{1}{n}\begin{bmatrix}  1&  1&  1&  1& \dots& 1\\  1&  \omega_n&  \omega_n^2&  \omega_n^3&  \dots& \omega_n^{n-1}\\  1&  \omega_n^2&  \omega_n^4&  \omega_n^6&  \dots& \omega_n^{2(n-1)}\\  1&  \omega_n^3&  \omega_n^6&  \omega_n^9&  \dots& \omega_n^{3(n-1)}\\  \vdots&  \vdots&  \vdots&  \vdots&  \ddots & \vdots \\  1&  \omega_n^{(n-1)}&  \omega_n^{2(n-1)}&  \omega_n^{3(n-1)}&  \dots& \omega_n^{(n-1)(n-1)}\end{bmatrix}",font_size=24).shift(1.7*DOWN+3.6*RIGHT)
+        special_use2 = Tex(r"\begin{bmatrix}1 & 1 & 1 & 1 & \cdots & 1 \\1 & \omega_n^{-1} & \omega_n^{-2} & \omega_n^{-3} & \cdots & \omega_n^{-(n-1)} \\1 & \omega_n^{-2} & \omega_n^{-4} & \omega_n^{-6} & \cdots & \omega_n^{-2(n-1)} \\1 & \omega_n^{-3} & \omega_n^{-6} & \omega_n^{-9} & \cdots & \omega_n^{-3(n-1)} \\\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\1 & \omega_n^{-(n-1)} & \omega_n^{-2(n-1)} & \omega_n^{-3(n-1)} & \cdots & \omega_n^{-(n-1)(n-1)}\end{bmatrix}",font_size=24).shift(1.7*DOWN+3.6*LEFT)
         self.play(Write(special_use1),Write(special_use2))
         self.wait()
         juanjidingli = Tex(r"a\otimes b=DFT^{-1}_{2n}(DFT_{2n}(a)\cdot DFT_{2n}(b))",font_size=32).shift(3.5*DOWN)
