@@ -79,16 +79,15 @@ class DotScene(InteractiveScene):
         self.wait()
         self.play(Write(dots))
         self.wait()
-        dotexpression = Tex(r"\begin{bmatrix} 1 & x_0 & x_0^2 & \cdots & x_0^{n-1} \\ 1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n-1} & x_{n-1}^2 & \cdots & x_{n-1}^{n-1} \end{bmatrix}",r"\begin{bmatrix} a_0\\a_1\\ \vdots \\a_{n-1} \end{bmatrix}=",r"\begin{bmatrix} y_0\\y_1\\ \vdots \\ y_{n-1} \end{bmatrix}")
+        dotexpression = Tex(r"\begin{bmatrix} 1 & x_0 & x_0^2 & \cdots & x_0^{n-1} \\ 1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n-1} & x_{n-1}^2 & \cdots & x_{n-1}^{n-1} \end{bmatrix}",r"\begin{bmatrix} a_0\\a_1\\ \vdots \\a_{n-1} \end{bmatrix}=",r"\begin{bmatrix} y_0\\y_1\\ \vdots \\ y_{n-1} \end{bmatrix}",font_size=32).shift(1.1*UP)
         self.play(Write(dotexpression))
         self.wait()
-        hanglieshi = Tex(r" \prod_{0 \leq i < j \leq n-1} (x_j - x_i) \neq0").shift(2.5*DOWN)
+        hanglieshi = Tex(r" \prod_{0 \leq i < j \leq n-1} (x_j - x_i) \neq0").shift(1.4*DOWN)
         self.play(Write(hanglieshi))
         self.wait()
         self.play(FadeOut(hanglieshi))
         ##ni
-        dotexpression_deverse = Tex(r"\begin{bmatrix} a_0\\a_1\\ \vdots \\a_{n-1} \end{bmatrix}=",r"\begin{bmatrix} 1 & x_0 & x_0^2 & \cdots & x_0^{n-1} \\ 1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n-1} & x_{n-1}^2 & \cdots & x_{n-1}^{n-1} \end{bmatrix}^{-1}",r"\begin{bmatrix} y_0\\y_1\\ \vdots \\ y_{n-1} \end{bmatrix}").shift(2*DOWN)
-        self.play(dotexpression.animate.shift(UP))
+        dotexpression_deverse = Tex(r"\begin{bmatrix} a_0\\a_1\\ \vdots \\a_{n-1} \end{bmatrix}=",r"\begin{bmatrix} 1 & x_0 & x_0^2 & \cdots & x_0^{n-1} \\ 1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n-1} & x_{n-1}^2 & \cdots & x_{n-1}^{n-1} \end{bmatrix}^{-1}",r"\begin{bmatrix} y_0\\y_1\\ \vdots \\ y_{n-1} \end{bmatrix}",font_size=32).shift(1.1*DOWN)
         self.play(Write(dotexpression_deverse))
         self.wait()
         #self.play(FadeOut(xishushi),FadeOut(dots),FadeOut(dotexpression_deverse))
@@ -109,20 +108,20 @@ class ProcedureScene(InteractiveScene):
         pots2 = Tex(r"(x_0,y_0'),(x_1,y_1')\dots(x_{2n-1},y_{2n-1}')").shift(3.5*RIGHT+1.5*UP)
         self.play(Write(pots1),Write(pots2))
         self.wait()
-        pots = Tex(r"(x_0,y_0y_0'),(x_1,y_1y_1'),\dots,(x_{2n-1},y_{2n-1}y_{2n-1}')")
+        pots = Tex(r"(x_0,y_0y_0'),(x_1,y_1y_1'),\dots,(x_{2n-1},y_{2n-1}y_{2n-1}')").shift(0.2*UP)
         arr12=Arrow((-3.5,1.3),(-2,0.2))
         arr22=Arrow((3.5,1.3),(2,0.2))
         self.play(FadeIn(arr12),FadeIn(arr22),Write(pots))
         self.wait()
-        arr = Arrow((0,-0.2),(0,-1.9))
-        result = Tex(r"\sum_{i = 0}^{2n-1}{c_ix^i}").shift(2.5*DOWN)
+        arr = Arrow((0,0.2),(0,-1.2))
+        result = Tex(r"\sum_{i = 0}^{2n-1}{c_ix^i}").shift(1.2*DOWN+0.2*LEFT)
         self.play(FadeIn(arr),Write(result))
         self.wait()
-        o_n = Tex(r"O(n)").shift(0.7*UP)
+        o_n = Tex(r"O(n)").shift(0.8*UP)
         self.play(FadeIn(o_n))
         self.wait()
         o_nlogn_1 = Tex(r"O(n \log n)").shift(3.7*RIGHT+2.2*UP)
-        o_nlogn_2 = Tex(r"O(n \log n)").shift(1.5*RIGHT+1*DOWN)
+        o_nlogn_2 = Tex(r"O(n \log n)").shift(1.5*RIGHT+0.5*DOWN)
         self.play(FadeIn(o_nlogn_1),FadeIn(o_nlogn_2))
         self.wait()
         # self.play(FadeOut(poly1),FadeOut(poly2),FadeOut(arr11),FadeOut(arr12),FadeOut(arr21),
@@ -189,20 +188,8 @@ class ImportComplexScene(InteractiveScene):
         self.play(Write(polyrelation2))
         self.wait()
         self.play(Indicate(polyrelation1[10]),Indicate(polyrelation1[11]),Indicate(polyrelation1[20]),Indicate(polyrelation1[21]),Indicate(polyrelation2[11]),Indicate(polyrelation2[12]),Indicate(polyrelation2[21]),Indicate(polyrelation2[22]))
-        arr1 = Arrow((-0.3,-0.4),(-0.3,-2))
-        arr2 = Arrow((2,-0.4),(2,-2))
-        ##notice
-        notice_part1 = Text("只需求出新多项式在",font="Microsoft YaHei",font_size=20).shift(-2.8*UP+1*RIGHT)
-        notice_part2 = Tex(r"x^2",color=BLUE).next_to(notice_part1,buff=0.05)
-        notice_part3 = Text("处的值",font="Microsoft YaHei",font_size=20).next_to(notice_part2,buff=0.05)
-        notice = VGroup(
-            notice_part1,
-            notice_part2,
-            notice_part3
-        )
-        self.play(FadeIn(arr1),FadeIn(arr2),Write(notice))
         self.wait()
-        self.play(FadeOut(polyA),FadeOut(polyA0),FadeOut(polyA1),FadeOut(polyrelation1),FadeOut(polyrelation2),FadeOut(arr1),FadeOut(arr2),FadeOut(notice))
+        self.play(FadeOut(polyA),FadeOut(polyA0),FadeOut(polyA1),FadeOut(polyrelation1),FadeOut(polyrelation2))
         ##example
         example = Tex(r"A(x)=1+3x+2x^2+x^3").shift(3*UP+2*LEFT)
         example_2 =Tex(r"A(2)=?").shift(3*UP+2*RIGHT)
@@ -252,14 +239,19 @@ class ImportComplexScene(InteractiveScene):
         self.play(FadeIn(procedure3_1),FadeIn(procedure3_2))
         procedure3_3 = Tex(r"A^{[0]}(-4)=A^{{[0]}^{[0]}}(16)-4A^{{[0]}^{[1]}}(16)=1-4\cdot2=-7").shift(1*DOWN)
         procedure3_4 = Tex(r"A^{[1]}(-4)=A^{{[1]}^{[0]}}(16)-4A^{{[1]}^{[1]}}(16)=3-4\cdot1=-1").shift(2*DOWN)
-        note = Tex(r"x^2=-4").shift(3*DOWN+1.3*LEFT)
-        note2 = Tex(r"x=\pm 2i").shift(3*DOWN+1.3*RIGHT)
+        note = Tex(r"x^2=-4").shift(2*UP+1.3*LEFT)
+        note2 = Tex(r"x=\pm 2i").shift(2*UP+1.3*RIGHT)
         self.play(Write(procedure3_3),Write(procedure3_4))
+        self.play(FadeOut(procedure3_1),FadeOut(procedure3_2))
+        idea = Tex(r"A(x)=A^{[0]}(-4)+xA^{[1]}(-4)").shift(UP)
+        self.play(Write(idea))
+        self.wait()
         self.play(Write(note))
         self.wait()
         self.play(Write(note2))
         self.wait()
-        self.play(FadeOut(procedure3_1),FadeOut(procedure3_2),result.animate.shift(2*UP))
+        self.play(FadeOut(idea),FadeOut(note),FadeOut(note2))
+        self.play(result.animate.shift(2*UP))
         result_3 = Tex(r"A(2i)=A^{[0]}(-4)+2iA^{[1]}(-4)=-7+2i\cdot(-1)=-7-2i").shift(UP)
         result_4 = Tex(r"A(-2i)=A^{[0]}(-4)-2iA^{[1]}(-4)=-7-2i\cdot(-1)=-7+2i")
         self.play(Write(result_3), Write(result_4))
@@ -267,7 +259,7 @@ class ImportComplexScene(InteractiveScene):
         self.play(FadeOut(procedure3_3),FadeOut(procedure3_4))
         self.play(result2.animate.shift(UP),result_3.animate.shift(DOWN),result_4.animate.shift(DOWN))
         self.wait()
-        self.play(FadeOut(note),FadeOut(note2),FadeOut(result2),FadeOut(result_3),FadeOut(result_4),FadeOut(result),FadeOut(trans1))
+        self.play(FadeOut(result2),FadeOut(result_3),FadeOut(result_4),FadeOut(result),FadeOut(trans1))
         ##how to choose proper x
         tree1 = VGroup(
             Tex(r"z_0").shift(0.2*UP),
@@ -300,22 +292,22 @@ class ImportComplexScene(InteractiveScene):
         self.wait()
         self.play(Write(bracey),Write(labely))
         self.wait()
-        formula = Tex(r"z^n=z_0").shift(0.6*DOWN+2*LEFT)
-        assumption = Tex(r"z=re^{i\theta},\quad z_0=r_0e^{i\theta_0}").shift(0.6*DOWN+2*RIGHT)
+        formula = Tex(r"z^n=z_0").shift(0.4*DOWN+2*LEFT)
+        assumption = Tex(r"z=re^{i\theta},\quad z_0=r_0e^{i\theta_0}").shift(0.4*DOWN+2*RIGHT)
         self.play(Write(formula))
         self.wait()
         self.play(Write(assumption))
         self.wait()
-        tui = Tex(r"\left\{\begin{matrix} r^n=r_0\\ n\theta=\theta_0+2k\pi,k\in \mathbb Z\end{matrix}\right.").shift((-3,-1.6,0))
+        tui = Tex(r"\left\{\begin{matrix} r^n=r_0\\ n\theta=\theta_0+2k\pi,k\in \mathbb Z\end{matrix}\right.").shift((-3,-1.4,0))
         self.play(Write(tui))
         self.wait()
-        tui_2 = Tex(r"\left\{\begin{matrix} r=\sqrt[n]{r_0} \\ \theta=\frac{\theta_0}{n}+\frac{2\pi}{n}\cdot k,k\in \mathbb Z\end{matrix}\right.").shift((3,-1.6,0))
+        tui_2 = Tex(r"\left\{\begin{matrix} r=\sqrt[n]{r_0} \\ \theta=\frac{\theta_0}{n}+\frac{2\pi}{n}\cdot k,k\in \mathbb Z\end{matrix}\right.").shift((3,-1.4,0))
         self.play(Write(tui_2))
         self.wait()
-        conclution = Tex(r"z=z'\cdot \omega_n^k,\quad z'=\sqrt[n]{r_0}e^{i\frac{\theta_0}{n}}").shift((-2.5,-2.8,0))
+        conclution = Tex(r"z=z'\cdot \omega_n^k,\quad z'=\sqrt[n]{r_0}e^{i\frac{\theta_0}{n}}").shift((-2.5,-2.6,0))
         self.play(Write(conclution))
         self.wait()
-        bufang = Tex(r"z'=1,\quad z=\omega_n^k").shift((3,-2.8,0))
+        bufang = Tex(r"z'=1,\quad z=\omega_n^k").shift((3,-2.6,0))
         self.play(Write(bufang))
         self.wait()
         self.play(FadeOut(tree1),FadeOut(bracex),FadeOut(labelx),FadeOut(bracey),
@@ -387,14 +379,17 @@ class ImportComplexScene(InteractiveScene):
         rec = Rectangle(width=11.3,height=5.2,color=RED).shift((0,0.9,0))
         self.play(ShowCreation(rec))
         brace = Brace(rec,LEFT,buff=0.01)
-        label = Tex(r"\log n",font_size=34).next_to(brace,LEFT,buff=0.01)
+        label = Tex(r"\log_2 n",font_size=34).next_to(brace,LEFT,buff=0.01)
         self.play(Write(brace),Write(label))
         self.wait()
         ##conclusion
-        conclusion1 = Tex(r"FFT(n)=O(n)+c\cdot n\log n",font_size=34).shift(3*DOWN)
+        conclusion1 = Tex(r"FFT(n)=O(n)+c\cdot n\log_2 n",font_size=34).shift(3*DOWN)
         self.play(TransformMatchingTex(conclusion, conclusion1))
-        conclusion2 = Tex(r"FFT(n)=O(n)+c\cdot n\log n=O(n\log n)",font_size=34).shift(3*DOWN)
+        conclusion2 = Tex(r"FFT(n)=O(n)+c\cdot n\log_2 n=O(n\log n)",font_size=34).shift(3*DOWN+1.5*LEFT)
         self.play(TransformMatchingTex(conclusion1, conclusion2))
+        self.wait()
+        huandi = Tex(r"\log_ab=\frac{1}{\log_ca}\cdot\log_cb",font_size=34).shift(3*DOWN+4.2*RIGHT)
+        self.play(Write(huandi))
         self.wait()
 class ComplexScene(InteractiveScene):
     def construct(self):
@@ -454,7 +449,7 @@ class DanWeiGenScene(InteractiveScene):
     def construct(self):
         ##danweigen definition
         self.wait()
-        plane = ComplexPlane()
+        plane = ComplexPlane(x_range=(-10,10,1))
         self.play(Write(plane))
         definition1 = Tex(r"z^n=1").shift(2.3*UP+3.4*RIGHT)
         assumption = Tex(r"z=re^{i\theta},r > 0").shift(1.6*UP+3.4*RIGHT)
@@ -487,6 +482,7 @@ class DanWeiGenScene(InteractiveScene):
         self.wait()
         self.play(FadeOut(property1),FadeOut(property2))
         ##danweigen property
+        self.wait()
         squared_roots = [root**2 for root in roots]
         squared_roots = squared_roots[0:4]
         squared_dots = [Dot(plane.n2p(root), fill_color=BLUE, radius=0.08) for root in squared_roots]
@@ -500,8 +496,14 @@ class DanWeiGenScene(InteractiveScene):
         self.play(Write(n2isfour))
         self.play(*[Indicate(dot) for dot in squared_dots])
         self.wait()
-        conclusion1 = Tex(r"(\omega_n^k)^2=\omega_{\frac{n}{2}}^k(k=0,1,\dots,\frac{n}{2}-1)").shift(2.4*DOWN)
+        tuidao_lines = VGroup(
+            Tex(r"(\omega_n^k)^2=(e^{i\frac{2\pi}{n}k})^{2}=",r"e^{i\frac{2\pi}{n}k\cdot2}").shift((3.6,1.2,0)),
+            Tex(r"\omega_{\frac{n}{2}}^k=e^{i\frac{2\pi}{\frac{n}{2}}k}=",r"e^{i\frac{2\pi}{n}k\cdot2}").shift((4.2,0,0))
+        )
+        conclusion1 = Tex(r"(\omega_n^k)^2=\omega_{\frac{n}{2}}^k,\quad k=0,1,\dots,\frac{n}{2}-1").shift(2.4*UP+3.2*RIGHT)
         self.play(Write(conclusion1))
+        self.play(self.camera.frame.animate.shift(2*RIGHT))
+        self.play(Write(tuidao_lines))
         self.wait()
 class FFTScene(InteractiveScene):
     def construct(self):
@@ -580,13 +582,11 @@ class FFTScene(InteractiveScene):
         polyA1.shift(0.8*DOWN)
         self.play(Write(polyA0),Write(polyA1))
         self.wait()
-        A0 = Tex(r"A^{[0]}(\omega_{\frac{n}{2}}^k)").shift(1.8*DOWN+3*LEFT)
-        A1 = Tex(r"A^{[1]}(\omega_{\frac{n}{2}}^k)").shift(1.8*DOWN+1*LEFT)
-        label = Text("这两个多项式的项数都折半\n同时单位根的次数也对应折半\n递归求解",font_size=18,font="Microsoft YaHei").shift(1.8*DOWN+4*RIGHT)
-        arr  = Arrow(A1.get_right(),label.get_left())
+        A0 = Tex(r"A^{[0]}(\omega_{\frac{n}{2}}^k)").shift(0.5*DOWN+3.2*LEFT)
+        A1 = Tex(r"A^{[1]}(\omega_{\frac{n}{2}}^k)").shift(0.5*DOWN+0.8*LEFT)
         DFT = Text(r"DFT").shift(0.5*DOWN+3*RIGHT)
         self.play(Write(A0),Write(A1))
-        self.play(FadeIn(arr),Write(label))
+        self.wait()
         self.play(Write(DFT))
         self.wait()
 class IDFTScene(InteractiveScene):
@@ -645,8 +645,8 @@ class IDFTScene(InteractiveScene):
                                r"\frac{1}{n}": RED,
                                r"-":BLUE,
                                r"n-1":WHITE
-                           }).shift(2*DOWN)
-        IDFT = Text(r"IDFT",font_size=32,font="Microsoft YaHei")
+                           }).shift(1.5*DOWN)
+        IDFT = Text(r"IDFT",font_size=32,font="Microsoft YaHei").shift(0.25*UP)
         self.play(Write(calculate_A2))
         self.play(Write(IDFT))
         self.wait()
@@ -654,9 +654,9 @@ class SumUpScene(InteractiveScene):
     def construct(self) :
         ##sum up
         lines = VGroup(
-            Tex(r"(1+2x)(3+4x)=3+10x+8x^2",font_size=30).shift(4.2*LEFT),
-            Tex(r"(1+20)(3+40)=3+10\times10+8\times10^2",font_size=30).shift(RIGHT),
-            Tex(r"21\times 43=903",font_size=30).shift(4.9*RIGHT)
+            Tex(r"(1+2x)(3+4x)=3+10x+8x^2",font_size=30).shift(4.2*LEFT+UP),
+            Tex(r"(1+20)(3+40)=3+10\times10+8\times10^2",font_size=30).shift(RIGHT+UP),
+            Tex(r"21\times 43=903",font_size=30).shift(4.9*RIGHT+UP)
         )
         self.play(Write(lines[0]))
         self.wait()
@@ -664,8 +664,8 @@ class SumUpScene(InteractiveScene):
         self.wait()
         self.play(TransformMatchingTex(lines[1].copy(), lines[2]))
         self.wait()
-        special_use1 = Tex(r"\frac{1}{n}\begin{bmatrix}  1&  1&  1&  1& \dots& 1\\  1&  \omega_n&  \omega_n^2&  \omega_n^3&  \dots& \omega_n^{n-1}\\  1&  \omega_n^2&  \omega_n^4&  \omega_n^6&  \dots& \omega_n^{2(n-1)}\\  1&  \omega_n^3&  \omega_n^6&  \omega_n^9&  \dots& \omega_n^{3(n-1)}\\  \vdots&  \vdots&  \vdots&  \vdots&  \ddots & \vdots \\  1&  \omega_n^{(n-1)}&  \omega_n^{2(n-1)}&  \omega_n^{3(n-1)}&  \dots& \omega_n^{(n-1)(n-1)}\end{bmatrix}",font_size=24).shift(1.4*DOWN+3.6*RIGHT)
-        special_use2 = Tex(r"\begin{bmatrix}1 & 1 & 1 & 1 & \cdots & 1 \\1 & \omega_n^{-1} & \omega_n^{-2} & \omega_n^{-3} & \cdots & \omega_n^{-(n-1)} \\1 & \omega_n^{-2} & \omega_n^{-4} & \omega_n^{-6} & \cdots & \omega_n^{-2(n-1)} \\1 & \omega_n^{-3} & \omega_n^{-6} & \omega_n^{-9} & \cdots & \omega_n^{-3(n-1)} \\\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\1 & \omega_n^{-(n-1)} & \omega_n^{-2(n-1)} & \omega_n^{-3(n-1)} & \cdots & \omega_n^{-(n-1)(n-1)}\end{bmatrix}",font_size=24).shift(1.4*DOWN+3.6*LEFT)
+        special_use1 = Tex(r"\frac{1}{n}\begin{bmatrix}  1&  1&  1&  1& \dots& 1\\  1&  \omega_n&  \omega_n^2&  \omega_n^3&  \dots& \omega_n^{n-1}\\  1&  \omega_n^2&  \omega_n^4&  \omega_n^6&  \dots& \omega_n^{2(n-1)}\\  1&  \omega_n^3&  \omega_n^6&  \omega_n^9&  \dots& \omega_n^{3(n-1)}\\  \vdots&  \vdots&  \vdots&  \vdots&  \ddots & \vdots \\  1&  \omega_n^{(n-1)}&  \omega_n^{2(n-1)}&  \omega_n^{3(n-1)}&  \dots& \omega_n^{(n-1)(n-1)}\end{bmatrix}",font_size=26).shift(1*DOWN+3.6*RIGHT)
+        special_use2 = Tex(r"\begin{bmatrix}1 & 1 & 1 & 1 & \cdots & 1 \\1 & \omega_n^{-1} & \omega_n^{-2} & \omega_n^{-3} & \cdots & \omega_n^{-(n-1)} \\1 & \omega_n^{-2} & \omega_n^{-4} & \omega_n^{-6} & \cdots & \omega_n^{-2(n-1)} \\1 & \omega_n^{-3} & \omega_n^{-6} & \omega_n^{-9} & \cdots & \omega_n^{-3(n-1)} \\\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\1 & \omega_n^{-(n-1)} & \omega_n^{-2(n-1)} & \omega_n^{-3(n-1)} & \cdots & \omega_n^{-(n-1)(n-1)}\end{bmatrix}",font_size=26).shift(1*DOWN+3.6*LEFT)
         self.play(Write(special_use1),Write(special_use2))
         self.wait()
         juanjidingli = Tex(r"a\otimes b=IDFT_{2n}(DFT_{2n}(a)\cdot DFT_{2n}(b))",font_size=32).shift(2.9*DOWN+3*LEFT)
@@ -674,6 +674,6 @@ class SumUpScene(InteractiveScene):
         NTT = Tex(r"\omega_n = g^{\frac{(p-1)}{n}} \mod p",font_size=32).shift(2.9*DOWN+2*RIGHT)
         self.play(Write(NTT))
         self.wait()
-        ntt = Text(r"NTT",font_size=32).shift(2.9*DOWN+4.2*RIGHT)
+        ntt = Text(r"NTT",font_size=32).shift(2.9*DOWN+4.4*RIGHT)
         self.play(Write(ntt))
         self.wait()

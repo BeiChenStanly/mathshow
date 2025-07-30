@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
         "./manim"
-    ]
+    ],
+    "python.analysis.typeCheckingMode": "off"
 }
